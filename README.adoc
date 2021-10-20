@@ -1,0 +1,45 @@
+==  UDHR Dataset
+
+The goal of this project is to create a multi-parallel dataset by aligning universal declaration of human rights (UDHR) documents.
+UDHR contains translations for over 500+ languages, which is a valuable resource for development and testing of CL/NLP tools.
+For example, Unicode uses this corpus to test encoding: https://unicode.org/udhr/translations.html
+
+== Downloading docs
+
+We use XML files which are properly encoded to unicode.
+
+From unicode: https://unicode.org/udhr/translations.html
+Bulk download links: https://unicode.org/udhr/downloads.html
+
+[source,bash]
+----
+mkdir data/xmls
+cd data/xmls
+wget https://unicode.org/udhr/assemblies/udhr_xml.zip
+unzip udhr_xml.zip
+----
+
+== Setup
+
+* Python 3.7+
+* xmltodict: which can be installed from  `pip install xmltodict`
+
+== Run
+[source,bash]
+----
+mkdir -p data/tsvs
+
+# data/xmls/udhr_eng.xml -> data/tsvs/udhr_eng.tsv
+for i in data/xmls/udhr_*.xml; do
+   echo $i;
+   ./udhr_parser.py -i $i -o ${i//xml/tsv};
+done
+----
+
+
+
+
+
+
+
+
