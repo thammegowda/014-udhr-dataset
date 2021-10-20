@@ -23,19 +23,30 @@ unzip udhr_xml.zip
 
 * Python 3.7+
 * xmltodict: which can be installed from  `pip install xmltodict`
+* uroman: https://github.com/isi-nlp/uroman
 
-== Run
+== Parse: XML to TSV
 [source,bash]
 ----
 mkdir -p data/tsvs
 
 # data/xmls/udhr_eng.xml -> data/tsvs/udhr_eng.tsv
-for i in data/xmls/udhr_*.xml; do
-   echo $i;
+for i in data/xmls/udhr_*.xml; do echo $i;
    ./udhr_parser.py -i $i -o ${i//xml/tsv};
 done
 ----
 
+=== Romanize
+
+[source,bash]
+----
+git clone git@github.com:isi-nlp/uroman.git
+mkdir data/romanized/
+# data/tsvs/udhr_eng.tsv -> data/rmonaized/udhr_eng.tsv
+for i in data/tsvs/udhr_*.tsv; do echo $i;
+   uroman/bin/uroman.pl < $i > ${i/tsvs/romanized}
+done
+----
 
 
 
