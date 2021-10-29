@@ -52,18 +52,22 @@ def parse_udhr_segs(xml_path: Path, out: TextIO):
             write_line([f'{i:02d}-00', title])
             if 'para' in art:
                 if isinstance(art['para'], list):
-                    for j, para in enumerate(art['para'], start=1):
+                    j = 1
+                    for para in art['para']:
                         if not para:
                             continue
                         write_line([f"{i:02d}-{j:02d}", para])
+                        j += 1
                 else:
                     write_line([f"{i:02d}-01", art['para']])
             else:
                 assert 'orderedlist' in art
                 assert 'listitem' in art['orderedlist']
-                for j, it in enumerate(art['orderedlist']['listitem']):
+                j = 1
+                for it in art['orderedlist']['listitem']:
                     if it.get('para'):
                         write_line([f"{i:02d}-{j:02d}", it['para']])
+                        j += 1
         except:
             log.warning(f"Unable to parse Article {i} in {xml_path} \n {art}")
             raise
