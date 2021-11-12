@@ -57,9 +57,10 @@ def align_tsvs(data_dir: Path):
         assert len(data) <= MAX_SECT
         for sec_id, paras in enumerate(data):
             max_para_ids[sec_id] = max(len(paras), max_para_ids[sec_id])
-
-    col_ids = [(sec_id, para_id) for sec_id, max_id in enumerate(max_para_ids) for para_id in range(max_id)]
+    # each row is a language
     row_ids = list(sorted(raw_data.keys()))
+    # each column is a segment
+    col_ids = [(sec_id, para_id) for sec_id, max_id in enumerate(max_para_ids) for para_id in range(max_id)]
     log.info(f"Creating a table of Langs x Segs = {len(row_ids)}x{len(col_ids)}")
     table = [[None for c in col_ids] for r in row_ids]
     for r, lang_name in enumerate(row_ids):
